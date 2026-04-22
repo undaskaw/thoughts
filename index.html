@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Album</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+    .track {
+      margin: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>My Album</h1>
+
+<audio id="player" controls style="width:90%"></audio>
+
+<div class="track" onclick="play('01.mp3')">01 - Track 1</div>
+<div class="track" onclick="play('02.mp3')">02 - Track 2</div>
+<div class="track" onclick="play('03.mp3')">03 - Track 3</div>
+
+<script>
+function play(file) {
+  const player = document.getElementById("player");
+  player.src = file;
+  player.play();
+}
+</script>
+
+</body>
+</html>
