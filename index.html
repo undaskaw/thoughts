@@ -9,15 +9,7 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #000;
-      color: #33cc66;
-    }
-
-    h1 {
-      text-align: center;
-      padding: 20px 10px 10px;
-      margin: 0;
-      color: #33cc66;
-      letter-spacing: 2px;
+      color: #006633;
     }
 
     audio {
@@ -27,7 +19,8 @@
       background: #000;
       padding: 10px;
       box-sizing: border-box;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid #111;
+      z-index: 10;
     }
 
     #playlist {
@@ -35,46 +28,39 @@
     }
 
     .track {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
       width: 100%;
-      padding: 14px 12px;
-      box-sizing: border-box;
       cursor: pointer;
       transition: 0.15s;
       border-bottom: 1px solid #111;
+      background: #000;
     }
 
-    /* NOT PLAYING (default black bar) */
-    .track {
-      background: #000;
+    .track-inner {
+      display: flex;
+      align-items: center;
+      padding: 14px 12px;
     }
 
     .num {
       width: 35px;
       color: #339966;
-      font-weight: bold;
-      flex-shrink: 0;
     }
 
     .name {
-      color: #33cc66;
+      color: #006633;
     }
 
-    /* HOVER */
     .track:hover {
       background: #111;
     }
 
-    /* ACTIVE / PLAYING STATE */
+    /* ACTIVE TRACK (full-width bar) */
     .track.active {
-      background: #33cc66;
+      background: #006633;
     }
 
     .track.active .name {
       color: #000;
-      font-weight: bold;
     }
 
     .track.active .num {
@@ -85,24 +71,22 @@
 
 <body>
 
-<h1>THOUGHTS</h1>
-
 <audio id="player" controls></audio>
 
 <div id="playlist">
 
-  <div class="track"><span class="num">01</span><span class="name">Magnetic Golden Laugh (I am a banana)</span></div>
-  <div class="track"><span class="num">02</span><span class="name">Let Me Watch the Footie</span></div>
-  <div class="track"><span class="num">03</span><span class="name">Oh Mama</span></div>
-  <div class="track"><span class="num">04</span><span class="name">Dog Man</span></div>
-  <div class="track"><span class="num">05</span><span class="name">Before You Can't</span></div>
-  <div class="track"><span class="num">06</span><span class="name">Europa Park</span></div>
-  <div class="track"><span class="num">07</span><span class="name">Teach Her to Shine</span></div>
-  <div class="track"><span class="num">08</span><span class="name">The Brothers-In-Law</span></div>
-  <div class="track"><span class="num">09</span><span class="name">Normal Version of Me</span></div>
-  <div class="track"><span class="num">10</span><span class="name">CAnned DAmaging SILence</span></div>
-  <div class="track"><span class="num">11</span><span class="name">Treasure Hunt</span></div>
-  <div class="track"><span class="num">12</span><span class="name">My Old Man (bonus track)</span></div>
+  <div class="track"><div class="track-inner"><span class="num">01</span><span class="name">Magnetic Golden Laugh (I am a banana)</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">02</span><span class="name">Let Me Watch the Footie</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">03</span><span class="name">Oh Mama</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">04</span><span class="name">Dog Man</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">05</span><span class="name">Before You Can't</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">06</span><span class="name">Europa Park</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">07</span><span class="name">Teach Her to Shine</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">08</span><span class="name">The Brothers-In-Law</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">09</span><span class="name">Normal Version of Me</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">10</span><span class="name">CAnned DAmaging SILence</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">11</span><span class="name">Treasure Hunt</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">12</span><span class="name">My Old Man (bonus track)</span></div></div>
 
 </div>
 
