@@ -9,7 +9,6 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: #000;
-      color: #006633;
     }
 
     audio {
@@ -30,9 +29,9 @@
     .track {
       width: 100%;
       cursor: pointer;
-      transition: 0.15s;
       border-bottom: 1px solid #111;
       background: #000;
+      transition: 0.15s;
     }
 
     .track-inner {
@@ -41,30 +40,33 @@
       padding: 14px 12px;
     }
 
+    /* NUMBERS ALWAYS DARK GREEN */
     .num {
       width: 35px;
-      color: #339966;
+      color: #006633;
     }
 
+    /* DEFAULT (NOT PLAYING) TRACK NAMES */
     .name {
-      color: #006633;
+      color: #33cc66;
     }
 
     .track:hover {
       background: #111;
     }
 
-    /* ACTIVE TRACK (full-width bar) */
+    /* ACTIVE TRACK (GREEN BAR) */
     .track.active {
-      background: #006633;
+      background: #33cc66;
     }
 
+    /* ACTIVE TEXT COLORS */
     .track.active .name {
       color: #000;
     }
 
     .track.active .num {
-      color: #339966;
+      color: #006633;
     }
   </style>
 </head>
@@ -75,7 +77,7 @@
 
 <div id="playlist">
 
-  <div class="track"><div class="track-inner"><span class="num">01</span><span class="name">Magnetic Golden Laugh (I am a banana)</span></div></div>
+  <div class="track"><div class="track-inner"><span class="num">01</span><span class="name">Magnetic Golden Laugh</span></div></div>
   <div class="track"><div class="track-inner"><span class="num">02</span><span class="name">Let Me Watch the Footie</span></div></div>
   <div class="track"><div class="track-inner"><span class="num">03</span><span class="name">Oh Mama</span></div></div>
   <div class="track"><div class="track-inner"><span class="num">04</span><span class="name">Dog Man</span></div></div>
