@@ -8,26 +8,55 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #050805;
+      background: #0b0f0b;
       color: #00ff88;
     }
 
-    h1 {
+    /* HEADER */
+    .header {
       text-align: center;
-      padding: 15px;
+      padding: 20px 10px 10px;
+      font-size: 22px;
       letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    /* PLAYER (sticky bottom like Spotify) */
+    .player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #111;
+      border-top: 1px solid #00ff88;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    audio {
+      width: 100%;
     }
 
     /* TRACK LIST */
-    .track {
-      background: #0f1410;
-      border-bottom: 1px solid #00ff88;
-      padding: 16px;
-      font-size: 16px;
-      cursor: pointer;
+    .list {
+      padding: 10px 10px 120px; /* space for player bar */
     }
 
+    .track {
+      background: #111;
+      border: 1px solid #00ff88;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    /* no hover dependency — mobile friendly */
     .track:active {
+      transform: scale(0.98);
       background: #00ff88;
       color: #000;
     }
@@ -36,79 +65,31 @@
       background: #00ff88 !important;
       color: #000 !important;
     }
-
-    /* PLAYER BAR (mobile sticky) */
-    .player-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #0a0f0a;
-      border-top: 2px solid #00ff88;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    audio {
-      width: 100%;
-    }
-
-    /* CONTROLS */
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    button {
-      flex: 1;
-      padding: 10px;
-      background: #111;
-      color: #00ff88;
-      border: 1px solid #00ff88;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    button:active {
-      background: #00ff88;
-      color: #000;
-    }
-
-    .toggles {
-      display: flex;
-      gap: 8px;
-    }
-
-    .small {
-      font-size: 12px;
-      flex: 1;
-    }
   </style>
 </head>
 
 <body>
 
-<h1>THOUGHTS</h1>
+<div class="header">THOUGHTS</div>
 
-<div id="playlist"></div>
+<div class="list" id="playlist">
+  <div class="track">01 Magnetic Golden Laugh (I am a banana)</div>
+  <div class="track">02 Let Me Watch the Footie</div>
+  <div class="track">03 Oh Mama</div>
+  <div class="track">04 Dog Man</div>
+  <div class="track">05 Before You Can't</div>
+  <div class="track">06 Europa Park</div>
+  <div class="track">07 Teach Her to Shine</div>
+  <div class="track">08 The Brothers-In-Law</div>
+  <div class="track">09 Normal Version of Me</div>
+  <div class="track">10 CAnned DAmaging SILence</div>
+  <div class="track">11 Treasure Hunt</div>
+  <div class="track">12 My Old Man (bonus track)</div>
+</div>
 
-<!-- PLAYER -->
+<!-- sticky mini player -->
 <div class="player-bar">
   <audio id="player" controls></audio>
-
-  <div class="controls">
-    <button onclick="prevTrack()">⏮</button>
-    <button onclick="togglePlay()">⏯</button>
-    <button onclick="nextTrack()">⏭</button>
-  </div>
-
-  <div class="toggles">
-    <button class="small" onclick="toggleShuffle()">🔀 Shuffle</button>
-    <button class="small" onclick="toggleLoop()">🔁 Loop</button>
-  </div>
 </div>
 
 <script>
@@ -127,93 +108,32 @@ const tracks = [
   "12_My_Old_Man_bonus_track.mp3"
 ];
 
-const titles = [
-  "01 Magnetic Golden Laugh",
-  "02 Let Me Watch the Footie",
-  "03 Oh Mama",
-  "04 Dog Man",
-  "05 Before You Can't",
-  "06 Europa Park",
-  "07 Teach Her to Shine",
-  "08 The Brothers-In-Law",
-  "09 Normal Version of Me",
-  "10 CAnned DAmaging SILence",
-  "11 Treasure Hunt",
-  "12 My Old Man (bonus)"
-];
-
-let current = 0;
-let shuffle = false;
-let loop = false;
+let currentIndex = 0;
 
 const player = document.getElementById("player");
-const playlistDiv = document.getElementById("playlist");
+const trackElements = document.querySelectorAll(".track");
 
-/* BUILD UI */
-function buildList() {
-  playlistDiv.innerHTML = "";
-  titles.forEach((title, i) => {
-    const div = document.createElement("div");
-    div.className = "track";
-    div.innerText = title;
-    div.onclick = () => play(i);
-    playlistDiv.appendChild(div);
-  });
-}
-
-/* PLAY TRACK */
-function play(i) {
-  current = i;
+function playTrack(i) {
+  currentIndex = i;
   player.src = tracks[i];
   player.play();
-  highlight();
+
+  trackElements.forEach(t => t.classList.remove("active"));
+  trackElements[i].classList.add("active");
 }
 
-/* HIGHLIGHT */
-function highlight() {
-  document.querySelectorAll(".track").forEach((el, i) => {
-    el.classList.toggle("active", i === current);
-  });
-}
+// tap-to-play
+trackElements.forEach((t, i) => {
+  t.addEventListener("click", () => playTrack(i));
+});
 
-/* CONTROLS */
-function nextTrack() {
-  if (shuffle) {
-    current = Math.floor(Math.random() * tracks.length);
-  } else {
-    current++;
-    if (current >= tracks.length) current = loop ? 0 : tracks.length - 1;
+// autoplay next
+player.addEventListener("ended", () => {
+  currentIndex++;
+  if (currentIndex < tracks.length) {
+    playTrack(currentIndex);
   }
-  play(current);
-}
-
-function prevTrack() {
-  current--;
-  if (current < 0) current = 0;
-  play(current);
-}
-
-function togglePlay() {
-  if (player.paused) player.play();
-  else player.pause();
-}
-
-function toggleShuffle() {
-  shuffle = !shuffle;
-  alert("Shuffle: " + shuffle);
-}
-
-function toggleLoop() {
-  loop = !loop;
-  alert("Loop: " + loop);
-}
-
-/* AUTO NEXT */
-player.addEventListener("ended", nextTrack);
-
-/* INIT */
-buildList();
-play(0);
+});
 </script>
 
 </body>
