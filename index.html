@@ -1,32 +1,62 @@
-body {
-margin: 0;
-font-family: Arial, sans-serif;
-      background: #050805;
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thoughts</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: #0b0f0b;
-color: #00ff88;
-}
-
-    h1 {
-    /* HEADER */
-    .header {
-text-align: center;
-      padding: 15px;
-      padding: 20px 10px 10px;
-      font-size: 22px;
-letter-spacing: 2px;
-      font-weight: bold;
-}
-
-    /* TRACK LIST */
-    .track {
-      background: #0f1410;
-      border-bottom: 1px solid #00ff88;
-      padding: 16px;
-      font-size: 16px;
-      cursor: pointer;
+      color: #00ff88;
     }
 
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 20px 10px 10px;
+      font-size: 22px;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    /* PLAYER (sticky bottom like Spotify) */
+    .player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #111;
+      border-top: 1px solid #00ff88;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    /* TRACK LIST */
+    .list {
+      padding: 10px 10px 120px; /* space for player bar */
+    }
+
+    .track {
+      background: #111;
+      border: 1px solid #00ff88;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    /* no hover dependency — mobile friendly */
     .track:active {
+      transform: scale(0.98);
       background: #00ff88;
       color: #000;
     }
@@ -35,86 +65,11 @@ letter-spacing: 2px;
       background: #00ff88 !important;
       color: #000 !important;
     }
-
-    /* PLAYER BAR (mobile sticky) */
-    /* PLAYER (sticky bottom like Spotify) */
-.player-bar {
-position: fixed;
-bottom: 0;
-left: 0;
-      right: 0;
-      background: #0a0f0a;
-      border-top: 2px solid #00ff88;
-      width: 100%;
-      background: #111;
-      border-top: 1px solid #00ff88;
-padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-sizing: border-box;
-}
-
-audio {
-width: 100%;
-}
-
-    /* CONTROLS */
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    /* TRACK LIST */
-    .list {
-      padding: 10px 10px 120px; /* space for player bar */
-}
-
-    button {
-      flex: 1;
-      padding: 10px;
-    .track {
-background: #111;
-      color: #00ff88;
-border: 1px solid #00ff88;
-      border-radius: 8px;
-      font-size: 14px;
-      padding: 14px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.2s;
-      user-select: none;
-}
-
-    button:active {
-    /* no hover dependency — mobile friendly */
-    .track:active {
-      transform: scale(0.98);
-background: #00ff88;
-color: #000;
-}
-
-    .toggles {
-      display: flex;
-      gap: 8px;
-    }
-
-    .small {
-      font-size: 12px;
-      flex: 1;
-    .active {
-      background: #00ff88 !important;
-      color: #000 !important;
-}
-</style>
+  </style>
 </head>
 
 <body>
 
-<h1>THOUGHTS</h1>
-
-<div id="playlist"></div>
 <div class="header">THOUGHTS</div>
 
 <div class="list" id="playlist">
@@ -132,125 +87,46 @@ color: #000;
   <div class="track">12 My Old Man (bonus track)</div>
 </div>
 
-<!-- PLAYER -->
 <!-- sticky mini player -->
 <div class="player-bar">
-<audio id="player" controls></audio>
-
-  <div class="controls">
-    <button onclick="prevTrack()">⏮</button>
-    <button onclick="togglePlay()">⏯</button>
-    <button onclick="nextTrack()">⏭</button>
-  </div>
-
-  <div class="toggles">
-    <button class="small" onclick="toggleShuffle()">🔀 Shuffle</button>
-    <button class="small" onclick="toggleLoop()">🔁 Loop</button>
-  </div>
+  <audio id="player" controls></audio>
 </div>
 
 <script>
-@@ -127,93 +108,32 @@ <h1>THOUGHTS</h1>
-"12_My_Old_Man_bonus_track.mp3"
+const tracks = [
+  "01_Magnetic_Golden_Laugh_I_am_a_banana.mp3",
+  "02_Let_Me_Watch_the_Footie.mp3",
+  "03_Oh_Mama.mp3",
+  "04_Dog_Man.mp3",
+  "05_Before_You_Cant.mp3",
+  "06_Europa_Park.mp3",
+  "07_Teach_Her_to_Shine.mp3",
+  "08_The_Brothers_In_Law.mp3",
+  "09_Normal_Version_of_Me.mp3",
+  "10_CAnned_DAmaging_SILence.mp3",
+  "11_Treasure_Hunt.mp3",
+  "12_My_Old_Man_bonus_track.mp3"
 ];
 
-const titles = [
-  "01 Magnetic Golden Laugh",
-  "02 Let Me Watch the Footie",
-  "03 Oh Mama",
-  "04 Dog Man",
-  "05 Before You Can't",
-  "06 Europa Park",
-  "07 Teach Her to Shine",
-  "08 The Brothers-In-Law",
-  "09 Normal Version of Me",
-  "10 CAnned DAmaging SILence",
-  "11 Treasure Hunt",
-  "12 My Old Man (bonus)"
-];
-
-let current = 0;
-let shuffle = false;
-let loop = false;
 let currentIndex = 0;
 
 const player = document.getElementById("player");
-const playlistDiv = document.getElementById("playlist");
-
-/* BUILD UI */
-function buildList() {
-  playlistDiv.innerHTML = "";
-  titles.forEach((title, i) => {
-    const div = document.createElement("div");
-    div.className = "track";
-    div.innerText = title;
-    div.onclick = () => play(i);
-    playlistDiv.appendChild(div);
-  });
-}
 const trackElements = document.querySelectorAll(".track");
 
-/* PLAY TRACK */
-function play(i) {
-  current = i;
 function playTrack(i) {
   currentIndex = i;
-player.src = tracks[i];
-player.play();
-  highlight();
-}
+  player.src = tracks[i];
+  player.play();
 
-/* HIGHLIGHT */
-function highlight() {
-  document.querySelectorAll(".track").forEach((el, i) => {
-    el.classList.toggle("active", i === current);
-  });
   trackElements.forEach(t => t.classList.remove("active"));
   trackElements[i].classList.add("active");
 }
 
-/* CONTROLS */
-function nextTrack() {
-  if (shuffle) {
-    current = Math.floor(Math.random() * tracks.length);
-  } else {
-    current++;
-    if (current >= tracks.length) current = loop ? 0 : tracks.length - 1;
-  }
-  play(current);
-}
-
-function prevTrack() {
-  current--;
-  if (current < 0) current = 0;
-  play(current);
-}
-
-function togglePlay() {
-  if (player.paused) player.play();
-  else player.pause();
-}
 // tap-to-play
 trackElements.forEach((t, i) => {
   t.addEventListener("click", () => playTrack(i));
 });
 
-function toggleShuffle() {
-  shuffle = !shuffle;
-  alert("Shuffle: " + shuffle);
-}
-
-function toggleLoop() {
-  loop = !loop;
-  alert("Loop: " + loop);
-}
-
-/* AUTO NEXT */
-player.addEventListener("ended", nextTrack);
-
-/* INIT */
-buildList();
-play(0);
 // autoplay next
 player.addEventListener("ended", () => {
   currentIndex++;
@@ -261,3 +137,4 @@ player.addEventListener("ended", () => {
 </script>
 
 </body>
+</html>
