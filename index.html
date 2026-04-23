@@ -2,46 +2,113 @@
 <html>
 <head>
   <title>Thoughts</title>
+
   <style>
     body {
-      font-family: Arial;
-      background: #111;
-      color: white;
+      font-family: Arial, sans-serif;
+      background: #0b0f0b;
+      color: #00ff88;
       text-align: center;
       padding: 30px;
     }
+
+    h1 {
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    audio {
+      width: 90%;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 0 10px #00ff88);
+    }
+
     .track {
-      margin: 10px;
+      background: #111;
+      border: 1px solid #00ff88;
+      padding: 12px;
+      margin: 8px auto;
+      width: 85%;
+      border-radius: 8px;
       cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .track:hover {
+      background: #00ff88;
+      color: #000;
+      transform: scale(1.02);
+    }
+
+    .active {
+      background: #00ff88 !important;
+      color: #000 !important;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Thoughts.</h1>
+<h1>THOUGHTS</h1>
 
-<audio id="player" controls style="width:90%"></audio>
+<audio id="player" controls></audio>
 
-<div class="track" onclick="play('01_Magnetic_Golden_Laugh_I_am_a_banana.mp3')">01 Magnetic Golden Laugh (I am a banana)</div>
-<div class="track" onclick="play('02_Let_Me_Watch_the_Footie.mp3')">02 Let Me Watch the Footie</div>
-<div class="track" onclick="play('03_Oh_Mama.mp3')">03 Oh Mama</div>
-<div class="track" onclick="play('04_Dog_Man.mp3')">04 Dog Man</div>
-<div class="track" onclick="play('05_Before_You_Cant.mp3')">05 Before You Can't</div>
-<div class="track" onclick="play('06_Europa_Park.mp3')">06 Europa Park</div>
-<div class="track" onclick="play('07_Teach_Her_to_Shine.mp3')">07 Teach Her to Shine</div>
-<div class="track" onclick="play('08_The_Brothers_In_Law.mp3')">08 The Brothers-In-Law</div>
-<div class="track" onclick="play('09_Normal_Version_of_Me.mp3')">09 Normal Version of Me</div>
-<div class="track" onclick="play('10_CAnned_DAmaging_SILence.mp3')">10 CAnned DAmaging SILence</div>
-<div class="track" onclick="play('11_Treasure_Hunt.mp3')">11 Treasure Hunt</div>
-<div class="track" onclick="play('12_My_Old_Man_bonus_track.mp3')">12 My Old Man (bonus track)</div>
+<div id="playlist">
+  <div class="track">01 Magnetic Golden Laugh (I am a banana)</div>
+  <div class="track">02 Let Me Watch the Footie</div>
+  <div class="track">03 Oh Mama</div>
+  <div class="track">04 Dog Man</div>
+  <div class="track">05 Before You Can't</div>
+  <div class="track">06 Europa Park</div>
+  <div class="track">07 Teach Her to Shine</div>
+  <div class="track">08 The Brothers-In-Law</div>
+  <div class="track">09 Normal Version of Me</div>
+  <div class="track">10 CAnned DAmaging SILence</div>
+  <div class="track">11 Treasure Hunt</div>
+  <div class="track">12 My Old Man (bonus track)</div>
+</div>
 
 <script>
-function play(file) {
-  const player = document.getElementById("player");
-  player.src = file;
+const tracks = [
+  "01_Magnetic_Golden_Laugh_I_am_a_banana.mp3",
+  "02_Let_Me_Watch_the_Footie.mp3",
+  "03_Oh_Mama.mp3",
+  "04_Dog_Man.mp3",
+  "05_Before_You_Cant.mp3",
+  "06_Europa_Park.mp3",
+  "07_Teach_Her_to_Shine.mp3",
+  "08_The_Brothers_In_Law.mp3",
+  "09_Normal_Version_of_Me.mp3",
+  "10_CAnned_DAmaging_SILence.mp3",
+  "11_Treasure_Hunt.mp3",
+  "12_My_Old_Man_bonus_track.mp3"
+];
+
+let currentIndex = 0;
+const player = document.getElementById("player");
+const trackElements = document.querySelectorAll(".track");
+
+function playTrack(index) {
+  currentIndex = index;
+  player.src = tracks[index];
   player.play();
+
+  trackElements.forEach(el => el.classList.remove("active"));
+  trackElements[index].classList.add("active");
 }
+
+// click events
+trackElements.forEach((el, i) => {
+  el.addEventListener("click", () => playTrack(i));
+});
+
+// autoplay next track
+player.addEventListener("ended", () => {
+  currentIndex++;
+  if (currentIndex < tracks.length) {
+    playTrack(currentIndex);
+  }
+});
 </script>
 
 </body>
